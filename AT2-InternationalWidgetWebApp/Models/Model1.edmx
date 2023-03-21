@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustNo" />
+          </Key>
+          <Property Name="CustNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustAddress" Type="varchar" MaxLength="50" />
+          <Property Name="CustCity" Type="varchar" MaxLength="50" />
+          <Property Name="CustState" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="InvoiceNo" />
+          </Key>
+          <Property Name="InvoiceNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="OrderTotalPrice" Type="float" />
+          <Property Name="CustNo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemLine">
+          <Key>
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="InvoiceNo" />
+          </Key>
+          <Property Name="ItemID" Type="int" Nullable="false" />
+          <Property Name="InvoiceNo" Type="int" Nullable="false" />
+          <Property Name="ItemQTY" Type="int" />
+          <Property Name="ItemTotal" Type="float" />
+          <Property Name="TotalPrice" Type="float" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemDescr" Type="varchar" MaxLength="50" />
+          <Property Name="ItemPrice" Type="float" />
+        </EntityType>
+        <Association Name="FK__Invoices__CustNo__2A4B4B5E">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustNo" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CustNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemLine__Invoic__49C3F6B7">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1" />
+          <End Role="ItemLine" Type="Self.ItemLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="InvoiceNo" />
+            </Principal>
+            <Dependent Role="ItemLine">
+              <PropertyRef Name="InvoiceNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemLine__ItemID__4AB81AF0">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="ItemLine" Type="Self.ItemLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemLine">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemLine" EntityType="Self.ItemLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Invoices__CustNo__2A4B4B5E" Association="Self.FK__Invoices__CustNo__2A4B4B5E">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemLine__Invoic__49C3F6B7" Association="Self.FK__ItemLine__Invoic__49C3F6B7">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="ItemLine" EntitySet="ItemLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemLine__ItemID__4AB81AF0" Association="Self.FK__ItemLine__ItemID__4AB81AF0">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ItemLine" EntitySet="ItemLine" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustNo" />
+          </Key>
+          <Property Name="CustNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CustAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoices__CustNo__2A4B4B5E" FromRole="Customers" ToRole="Invoices" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceNo" />
+          </Key>
+          <Property Name="InvoiceNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OrderTotalPrice" Type="Double" />
+          <Property Name="CustNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Invoices__CustNo__2A4B4B5E" FromRole="Invoices" ToRole="Customers" />
+          <NavigationProperty Name="ItemLines" Relationship="Self.FK__ItemLine__Invoic__49C3F6B7" FromRole="Invoices" ToRole="ItemLine" />
+        </EntityType>
+        <EntityType Name="ItemLine">
+          <Key>
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="InvoiceNo" />
+          </Key>
+          <Property Name="ItemID" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceNo" Type="Int32" Nullable="false" />
+          <Property Name="ItemQTY" Type="Int32" />
+          <Property Name="ItemTotal" Type="Double" />
+          <Property Name="TotalPrice" Type="Double" />
+          <NavigationProperty Name="Invoice" Relationship="Self.FK__ItemLine__Invoic__49C3F6B7" FromRole="ItemLine" ToRole="Invoices" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__ItemLine__ItemID__4AB81AF0" FromRole="ItemLine" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemDescr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ItemPrice" Type="Double" />
+          <NavigationProperty Name="ItemLines" Relationship="Self.FK__ItemLine__ItemID__4AB81AF0" FromRole="Items" ToRole="ItemLine" />
+        </EntityType>
+        <Association Name="FK__Invoices__CustNo__2A4B4B5E">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustNo" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="CustNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemLine__Invoic__49C3F6B7">
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="ItemLine" Type="Self.ItemLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="InvoiceNo" />
+            </Principal>
+            <Dependent Role="ItemLine">
+              <PropertyRef Name="InvoiceNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemLine__ItemID__4AB81AF0">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="ItemLine" Type="Self.ItemLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemLine">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WidgetEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="ItemLines" EntityType="Self.ItemLine" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <AssociationSet Name="FK__Invoices__CustNo__2A4B4B5E" Association="Self.FK__Invoices__CustNo__2A4B4B5E">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemLine__Invoic__49C3F6B7" Association="Self.FK__ItemLine__Invoic__49C3F6B7">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="ItemLine" EntitySet="ItemLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemLine__ItemID__4AB81AF0" Association="Self.FK__ItemLine__ItemID__4AB81AF0">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ItemLine" EntitySet="ItemLines" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="WidgetEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Model.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustNo" ColumnName="CustNo" />
+                <ScalarProperty Name="CustName" ColumnName="CustName" />
+                <ScalarProperty Name="CustAddress" ColumnName="CustAddress" />
+                <ScalarProperty Name="CustCity" ColumnName="CustCity" />
+                <ScalarProperty Name="CustState" ColumnName="CustState" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="Model.Invoice">
+              <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="OrderTotalPrice" ColumnName="OrderTotalPrice" />
+                <ScalarProperty Name="CustNo" ColumnName="CustNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemLines">
+            <EntityTypeMapping TypeName="Model.ItemLine">
+              <MappingFragment StoreEntitySet="ItemLine">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="ItemQTY" ColumnName="ItemQTY" />
+                <ScalarProperty Name="ItemTotal" ColumnName="ItemTotal" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="Model.Item">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ItemDescr" ColumnName="ItemDescr" />
+                <ScalarProperty Name="ItemPrice" ColumnName="ItemPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

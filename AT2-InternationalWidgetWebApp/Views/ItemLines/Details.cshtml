@@ -1,0 +1,58 @@
+﻿@model AT2_InternationalWidgetWebApp.Models.ItemLine
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ItemLine</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemQTY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemQTY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Invoice.InvoiceNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Invoice.InvoiceNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item.ItemDescr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item.ItemDescr)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

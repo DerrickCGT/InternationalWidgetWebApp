@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>International Widget</h1>
+    <p class="lead">International Widgets is a widgets supplier for building industry.</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div>
+    @Html.ActionLink("List of Customers", "Index", "Customers")<br />
+    @Html.ActionLink("List of Items", "Index", "Items")<br /><br />
+    @Html.ActionLink("List of Invoices", "Index", "Invoices")<br />
+    @Html.ActionLink("List of Line Items", "Index", "ItemLines")
+
+</div>
+
+<div class="row">
+   
+</div>
